@@ -1,7 +1,7 @@
 "use client";
 
 const BookCreateForms = () => {
-  return <div>Enter</div>;
+  return <form action=""></form>;
 };
 
 export default BookCreateForms;

@@ -1,7 +1,7 @@
 "use client";
 
 const AuthorCreateForms = () => {
-  return <div>Enter</div>;
+  return <form action=""></form>;
 };
 
 export default AuthorCreateForms;
