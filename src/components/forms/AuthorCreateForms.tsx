@@ -6,7 +6,8 @@ import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
-import { author, AuthorType } from "@/lib/schemaForm";
+import { authorSchema, authorSchemaType } from "@/lib/schemaForm";
+import authorCreateServer from "@/server/authorCreateServer";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   BrushCleaningIcon,
@@ -14,12 +15,16 @@ import {
   Trash2Icon,
   UploadCloudIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { setTimeout } from "timers";
+
 import { Button } from "../shadcnui/button";
+import { toast } from "../shadcnui/toast";
 
 const AuthorCreateForms = () => {
   const [clear, setClear] = useState(false);
+
+  const { push } = useRouter();
 
   const {
     control,
@@ -27,21 +32,37 @@ const AuthorCreateForms = () => {
     handleSubmit,
     formState: { isSubmitting, isDirty },
   } = useForm({
-    resolver: zodResolver(author),
+    resolver: zodResolver(authorSchema),
     defaultValues: {
       userName: "",
       email: "",
     },
   });
 
-  const handleAuthorForm = async (auhData: AuthorType) => {
+  const handleAuthorForm = async (auhData: authorSchemaType) => {
     await new Promise((t) => {
       setTimeout(t, 1000);
     });
 
-    console.log(auhData);
+    const { isSuccess, isTitle, msg } = await authorCreateServer(auhData);
 
-    reset();
+    if (isSuccess) {
+      toast.add({
+        type: "success",
+        title: isTitle,
+        description: msg,
+      });
+
+      reset();
+
+      push("/bookcreate");
+    } else {
+      toast.add({
+        type: "error",
+        title: isTitle,
+        description: msg,
+      });
+    }
   };
 
   return (
@@ -102,8 +123,9 @@ const AuthorCreateForms = () => {
           onClick={() => {
             setClear(true);
             setTimeout(() => {
-              (reset(), setClear(false));
-            }, 1000);
+              setClear(false);
+              reset();
+            }, 500);
           }}
           variant={"destructive"}>
           {clear ?
