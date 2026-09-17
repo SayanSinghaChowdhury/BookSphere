@@ -26,7 +26,7 @@ export const authorCreateServer = async (auhData: authorSchemaType) => {
         isSuccess: false,
         isTitle: error.name,
 
-        msg: error.message,
+        msg: error.cause,
       };
     }
 
@@ -35,7 +35,7 @@ export const authorCreateServer = async (auhData: authorSchemaType) => {
         isSuccess: false,
         isTitle: error.name,
 
-        msg: error.message,
+        msg: error.cause,
       };
     }
 

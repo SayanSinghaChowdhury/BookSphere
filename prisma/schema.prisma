@@ -16,6 +16,7 @@ model AuthorData {
     id String @id @unique() @default(uuid())
 
     userName String
+     email String
 
     book BookData[]
 }
