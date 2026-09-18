@@ -11,16 +11,15 @@ export const authorSchema = z.object({
 
 export type authorSchemaType = z.infer<typeof authorSchema>;
 
-export const book = z.object({
+export const bookSchema = z.object({
   bookName: z
     .string({ error: "Name is required." })
     .min(6, { error: "Name must be at least 6 characters long." })
     .max(36, { error: "Name must not exceed 50 characters." }),
 
   price: z
-    .string()
-    .min(10, { error: "Price must be at least 10 amount long." })
-    .max(100000, { error: "Price must not exceed 100000 amount." }),
+    .string({ error: "Price is required." })
+    .min(1, { error: "Price must be at least 10 amount long." }),
 
   image: z
     .url()
@@ -34,4 +33,4 @@ export const book = z.object({
     .max(36, { error: "Name must not exceed 50 characters." }),
 });
 
-export type BookType = z.infer<typeof book>;
+export type BookType = z.infer<typeof bookSchema>;

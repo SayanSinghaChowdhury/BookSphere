@@ -51,6 +51,7 @@ const AuthorCreateForms = () => {
         type: "success",
         title: isTitle,
         description: msg,
+        priority: "high",
       });
 
       reset();
@@ -61,6 +62,7 @@ const AuthorCreateForms = () => {
         type: "error",
         title: isTitle,
         description: msg,
+        priority: "high",
       });
     }
   };

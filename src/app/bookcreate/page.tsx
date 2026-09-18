@@ -12,9 +12,12 @@ const page = () => {
     <section className="grid h-dvh place-items-center">
       <Card className="w-sm">
         <CardHeader className="w-full">
-          <CardTitle className="text-center text-xl">Create Book</CardTitle>
+          <CardTitle className="text-center font-mono text-2xl font-semibold">
+            Create 📔
+          </CardTitle>
         </CardHeader>
         {/* Call Component */}
+
         <BookCreateForms />
       </Card>
     </section>
