@@ -1,6 +1,7 @@
 "use client";
 
 import { bookSchema, BookType } from "@/lib/schemaForm";
+import { AuthorData } from "@generated/prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   BrushCleaningIcon,
@@ -14,8 +15,21 @@ import { Button } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../shadcnui/select";
 
-const BookCreateForms = () => {
+type BookCreateForms = {
+  writer: AuthorData[];
+};
+
+const BookCreateForms = ({ writer }: BookCreateForms) => {
+  console.log(writer);
+
   const [clear, setClear] = useState(false);
   const {
     handleSubmit,
@@ -39,7 +53,7 @@ const BookCreateForms = () => {
   return (
     <form onSubmit={handleSubmit(bookHandleSubmit)}>
       <CardContent className="grid w-sm place-items-center gap-7">
-        {/* bname */}
+        {/* b-name */}
         <Controller
           name="bookName"
           control={control}
@@ -60,6 +74,7 @@ const BookCreateForms = () => {
             </Field>
           )}
         />
+
         {/* price */}
         <Controller
           name="price"
@@ -87,16 +102,25 @@ const BookCreateForms = () => {
           control={control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Writer</FieldLabel>
-              <Input
-                className="bg-project text-project"
-                {...field}
-                id={field.name}
-                type="text"
-                placeholder=" Name.....of ✒️"
-                autoComplete="name"
-                aria-invalid={fieldState.invalid}
-              />
+              <FieldLabel htmlFor={field.name}>{field.name}</FieldLabel>
+
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}>
+                <SelectTrigger className="w-full font-semibold">
+                  <SelectValue placeholder="Select Writer" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  {writer.map((item) => (
+                    <SelectItem
+                      key={item.id}
+                      value={item.userName}>
+                      {item.userName}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>

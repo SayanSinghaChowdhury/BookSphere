@@ -1,5 +1,6 @@
 import BookCreateForms from "@/components/forms/BookCreateForms";
 import { Card, CardHeader, CardTitle } from "@/components/shadcnui/card";
+import prisma from "@/lib/dbClient/prisma";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
   description: "BookSphere || Book Create Section",
 };
 
-const page = () => {
+const page = async () => {
+  const writerList = await prisma.authorData.findMany();
   return (
     <section className="grid h-dvh place-items-center">
       <Card className="w-sm">
@@ -18,7 +20,7 @@ const page = () => {
         </CardHeader>
         {/* Call Component */}
 
-        <BookCreateForms />
+        <BookCreateForms writer={writerList} />
       </Card>
     </section>
   );
