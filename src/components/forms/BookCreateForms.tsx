@@ -25,6 +25,7 @@ import {
 } from "../shadcnui/select";
 import { Separator } from "../shadcnui/separator";
 
+import { bookCreateServer } from "@/server/bookCreateServer";
 import { FileSizeValidator } from "use-file-picker/validators";
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
 
@@ -54,7 +55,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
     },
   });
   // file picker process file data.
-  const { openFilePicker, filesContent, errors } = useFilePicker({
+  const { openFilePicker, filesContent, errors, plainFiles } = useFilePicker({
     multiple: false,
     accept: "image/*",
     readAs: "DataURL",
@@ -68,17 +69,14 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
     onClear: () => setFile(false),
   });
 
-  const bookHandleSubmit = (bdata: BookType) => {
+  const bookHandleSubmit = async (bdata: BookType) => {
+    const {} = await bookCreateServer(bdata, plainFiles[0]);
     console.log(bdata);
   };
 
   return (
     <form onSubmit={handleSubmit(bookHandleSubmit)}>
       <CardContent className="grid w-sm place-items-center gap-7">
-        {/* <a
-          href="#"
-          className={buttonVariants({ variant: "secondary", size: "sm" })}></a> */}
-
         <button onClick={openFilePicker}>
           {!file && (
             <Avatar className={"size-72"}>
@@ -86,7 +84,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
                 src="https://placehold.net/book-400x400.png"
                 alt="@shadcn"
               />
-              <AvatarFallback>Ci</AvatarFallback>
+              <AvatarFallback>CI</AvatarFallback>
             </Avatar>
           )}
 
@@ -111,11 +109,11 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
         </button>
 
         <Button
-          disabled={!isDirty}
+          disabled={!file}
           type="submit"
           className={"w-full"}
           variant={"default"}>
-          Upload Image
+          Upload Image <SendIcon />
         </Button>
 
         <Separator />
@@ -198,7 +196,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
         <Button
           type="reset"
 
-          disabled={!isDirty}
+          disabled={!isDirty || !file}
 
           className="w-full"
           onClick={() => {
@@ -225,7 +223,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
           type="submit"
           className="w-full"
           variant={"secondary"}
-          disabled={!isDirty}>
+          disabled={!isDirty || !file}>
           {isSubmitting ?
             <>
               Submiting <UploadCloudIcon />
