@@ -36,6 +36,8 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
   console.log(writer);
 
   const [clear, setClear] = useState(false);
+  // for file
+  const [file, setFile] = useState(false);
   //  process form  data.
   const {
     handleSubmit,
@@ -52,17 +54,18 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
     },
   });
   // file picker process file data.
-  const { openFilePicker } = useFilePicker({
+  const { openFilePicker, filesContent, errors } = useFilePicker({
     multiple: false,
     accept: "image/*",
     readAs: "DataURL",
 
     validators: [
-      new FileSizeValidator({ maxFileSize: 10 * 1024 * 1024 /* 10 MB */ }),
+      new FileSizeValidator({ maxFileSize: 1 * 1024 * 1024 /* 1 MB */ }),
     ],
 
-    onFilesSuccessfullySelected: () => {},
-    onClear: () => {},
+    onFilesSuccessfullySelected: () => setFile(true),
+
+    onClear: () => setFile(false),
   });
 
   const bookHandleSubmit = (bdata: BookType) => {
@@ -76,14 +79,43 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
           href="#"
           className={buttonVariants({ variant: "secondary", size: "sm" })}></a> */}
 
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/shadcn.png"
-            alt="@shadcn"
-            className="grayscale"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        <button onClick={openFilePicker}>
+          {!file && (
+            <Avatar className={"size-72"}>
+              <AvatarImage
+                src="https://placehold.net/book-400x400.png"
+                alt="@shadcn"
+              />
+              <AvatarFallback>Ci</AvatarFallback>
+            </Avatar>
+          )}
+
+          {filesContent.map(({ name, content }) => (
+            <Avatar
+              key={name}
+              className={"size-64"}>
+              <AvatarImage
+                src={content}
+                alt="@shadcn"
+              />
+              <AvatarFallback>{name}</AvatarFallback>
+            </Avatar>
+          ))}
+
+          {errors.map(({ name }) => (
+            <FieldError
+              key={name}
+              errors={[{ message: name }]}
+            />
+          ))}
+        </button>
+
+        <Button
+          type="submit"
+          className={"w-full"}
+          variant={"default"}>
+          Upload Image
+        </Button>
 
         <Separator />
         {/* b-name */}
