@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, buttonVariants } from "../shadcnui/button";
+import { useFilePicker } from "use-file-picker";
+import { Button } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
@@ -24,6 +25,9 @@ import {
 } from "../shadcnui/select";
 import { Separator } from "../shadcnui/separator";
 
+import { FileSizeValidator } from "use-file-picker/validators";
+import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
+
 type BookCreateForms = {
   writer: AuthorData[];
 };
@@ -32,6 +36,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
   console.log(writer);
 
   const [clear, setClear] = useState(false);
+  //  process form  data.
   const {
     handleSubmit,
     control,
@@ -46,6 +51,19 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
       writer: "",
     },
   });
+  // file picker process file data.
+  const { openFilePicker } = useFilePicker({
+    multiple: false,
+    accept: "image/*",
+    readAs: "DataURL",
+
+    validators: [
+      new FileSizeValidator({ maxFileSize: 10 * 1024 * 1024 /* 10 MB */ }),
+    ],
+
+    onFilesSuccessfullySelected: () => {},
+    onClear: () => {},
+  });
 
   const bookHandleSubmit = (bdata: BookType) => {
     console.log(bdata);
@@ -54,9 +72,18 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
   return (
     <form onSubmit={handleSubmit(bookHandleSubmit)}>
       <CardContent className="grid w-sm place-items-center gap-7">
-        <a
+        {/* <a
           href="#"
-          className={buttonVariants({ variant: "secondary", size: "sm" })}></a>
+          className={buttonVariants({ variant: "secondary", size: "sm" })}></a> */}
+
+        <Avatar>
+          <AvatarImage
+            src="https://github.com/shadcn.png"
+            alt="@shadcn"
+            className="grayscale"
+          />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
 
         <Separator />
         {/* b-name */}
