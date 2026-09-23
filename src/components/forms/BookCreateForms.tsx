@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button } from "../shadcnui/button";
+import { Button, buttonVariants } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../shadcnui/select";
+import { Separator } from "../shadcnui/separator";
 
 type BookCreateForms = {
   writer: AuthorData[];
@@ -53,6 +54,11 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
   return (
     <form onSubmit={handleSubmit(bookHandleSubmit)}>
       <CardContent className="grid w-sm place-items-center gap-7">
+        <a
+          href="#"
+          className={buttonVariants({ variant: "secondary", size: "sm" })}></a>
+
+        <Separator />
         {/* b-name */}
         <Controller
           name="bookName"
