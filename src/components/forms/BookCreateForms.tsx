@@ -111,6 +111,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
         </button>
 
         <Button
+          disabled={!isDirty}
           type="submit"
           className={"w-full"}
           variant={"default"}>
