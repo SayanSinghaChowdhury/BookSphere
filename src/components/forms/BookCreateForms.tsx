@@ -79,7 +79,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
       <CardContent className="grid w-sm place-items-center gap-7">
         <button onClick={openFilePicker}>
           {!file && (
-            <Avatar className={"size-72"}>
+            <Avatar className={"size-64"}>
               <AvatarImage
                 src="https://placehold.net/book-400x400.png"
                 alt="@shadcn"
