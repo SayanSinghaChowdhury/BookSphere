@@ -3,21 +3,10 @@
 import { BookType } from "@/lib/schemaForm";
 import { PrismaClientKnownRequestError } from "@generated/prisma/internal/prismaNamespace";
 import { revalidatePath } from "next/cache";
-import sharp from "sharp";
 
 export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
   try {
     const imageName = `${crypto.randomUUID()}.jpeg`;
-
-    await sharp(await bookFile.arrayBuffer())
-      .resize({
-        width: 288,
-        height: 288,
-      })
-      .jpeg({ mozjpeg: true, quality: 97 })
-      .toFile(`public/uploads${imageName}`);
-
-    const imageUrl = `/uploads${imageName}`;
 
     revalidatePath("/bookcreate");
 

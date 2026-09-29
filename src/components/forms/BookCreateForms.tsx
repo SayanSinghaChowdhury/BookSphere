@@ -34,9 +34,7 @@ type BookCreateForms = {
 };
 
 const BookCreateForms = ({ writer }: BookCreateForms) => {
-  console.log(writer);
-
-  const [clear, setClear] = useState(false);
+  const [isClear, setIsclear] = useState(false);
   // for file
   const [file, setFile] = useState(false);
   //  process form  data.
@@ -55,19 +53,20 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
     },
   });
   // file picker process file data.
-  const { openFilePicker, filesContent, errors, plainFiles } = useFilePicker({
-    multiple: false,
-    accept: "image/*",
-    readAs: "DataURL",
+  const { openFilePicker, filesContent, errors, plainFiles, clear } =
+    useFilePicker({
+      multiple: false,
+      accept: "image/*",
+      readAs: "DataURL",
 
-    validators: [
-      new FileSizeValidator({ maxFileSize: 1 * 1024 * 1024 /* 1 MB */ }),
-    ],
+      validators: [
+        new FileSizeValidator({ maxFileSize: 1 * 1024 * 1024 /* 1 MB */ }),
+      ],
 
-    onFilesSuccessfullySelected: () => setFile(true),
+      onFilesSuccessfullySelected: () => setFile(true),
 
-    onClear: () => setFile(false),
-  });
+      onClear: () => setFile(false),
+    });
 
   const bookHandleSubmit = async (bdata: BookType) => {
     const {} = await bookCreateServer(bdata, plainFiles[0]);
@@ -200,14 +199,15 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
 
           className="w-full"
           onClick={() => {
-            setClear(true);
+            setIsclear(true);
             setTimeout(() => {
-              setClear(false);
+              setIsclear(false);
               reset();
+              clear();
             }, 500);
           }}
           variant={"destructive"}>
-          {clear ?
+          {isClear ?
             <>
               Reseting...
               <BrushCleaningIcon />
