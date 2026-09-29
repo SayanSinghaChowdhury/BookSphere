@@ -50,7 +50,7 @@ const AuthorCreateForms = () => {
       toast.add({
         type: "success",
         title: isTitle,
-        description: msg,
+        description: `${msg}`,
         priority: "high",
       });
 
@@ -61,8 +61,8 @@ const AuthorCreateForms = () => {
       toast.add({
         type: "error",
         title: isTitle,
-        description: msg,
         priority: "high",
+        description: `${msg}`,
       });
     }
   };

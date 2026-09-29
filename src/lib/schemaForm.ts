@@ -21,11 +21,11 @@ export const bookSchema = z.object({
     .string({ error: "Price is required." })
     .min(1, { error: "Price must be at least 10 amount long." }),
 
-  image: z
-    .url()
-    .trim()
-    .min(1, "Image URL is required")
-    .max(2048, "Image URL is too long"),
+  // image: z
+  //   .url()
+  //   .trim()
+  //   .min(1, "Image URL is required")
+  //   .max(2048, "Image URL is too long"),
 
   writer: z
     .string({ error: "Name is required." })

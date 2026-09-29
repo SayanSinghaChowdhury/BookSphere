@@ -1,6 +1,7 @@
 "use client";
 
 import { bookSchema, BookType } from "@/lib/schemaForm";
+import { bookCreateServer } from "@/server/bookCreateServer";
 import { AuthorData } from "@generated/prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -12,6 +13,7 @@ import {
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useFilePicker } from "use-file-picker";
+import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
 import { Button } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
@@ -25,10 +27,9 @@ import {
 } from "../shadcnui/select";
 import { Separator } from "../shadcnui/separator";
 
-import { bookCreateServer } from "@/server/bookCreateServer";
+import { useRouter } from "next/navigation";
 import { FileSizeValidator } from "use-file-picker/validators";
-import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
-
+import { toast } from "../shadcnui/toast";
 type BookCreateForms = {
   writer: AuthorData[];
 };
@@ -37,6 +38,8 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
   const [isClear, setIsclear] = useState(false);
   // for file
   const [file, setFile] = useState(false);
+
+  const { push } = useRouter();
   //  process form  data.
   const {
     handleSubmit,
@@ -71,12 +74,40 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
   const bookHandleSubmit = async (bdata: BookType) => {
     const {} = await bookCreateServer(bdata, plainFiles[0]);
     console.log(bdata);
+    console.log(plainFiles[0]);
+
+    const { isSuccess, isTitle, msg } = await bookCreateServer(
+      bdata,
+      plainFiles[0],
+    );
+
+    if (isSuccess) {
+      toast.add({
+        type: "success",
+        title: isTitle,
+        description: `${msg}`,
+        priority: "high",
+      });
+
+      reset();
+
+      push("/");
+    } else {
+      toast.add({
+        type: "error",
+        title: isTitle,
+        priority: "high",
+        description: `${msg}`,
+      });
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(bookHandleSubmit)}>
       <CardContent className="grid w-sm place-items-center gap-7">
-        <button onClick={openFilePicker}>
+        <button
+          type="button"
+          onClick={openFilePicker}>
           {!file && (
             <Avatar className={"size-64"}>
               <AvatarImage
@@ -106,14 +137,6 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
             />
           ))}
         </button>
-
-        <Button
-          disabled={!file}
-          type="submit"
-          className={"w-full"}
-          variant={"default"}>
-          Upload Image <SendIcon />
-        </Button>
 
         <Separator />
         {/* b-name */}
