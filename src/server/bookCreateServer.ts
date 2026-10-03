@@ -8,7 +8,7 @@ import sharp from "sharp";
 
 export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
   try {
-    const imageName = `${crypto.randomUUID()}jpeg`;
+    const imageName = `${crypto.randomUUID()}.jpeg`;
     console.log(imageName);
     // store name
     const imageBuffer = await bookFile.arrayBuffer();

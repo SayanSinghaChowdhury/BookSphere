@@ -30,6 +30,7 @@ import { Separator } from "../shadcnui/separator";
 import { useRouter } from "next/navigation";
 import { FileSizeValidator } from "use-file-picker/validators";
 import { toast } from "../shadcnui/toast";
+
 type BookCreateForms = {
   writer: AuthorData[];
 };
@@ -72,7 +73,6 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
     });
 
   const bookHandleSubmit = async (bdata: BookType) => {
-    const {} = await bookCreateServer(bdata, plainFiles[0]);
     console.log(bdata);
     console.log(plainFiles[0]);
 
@@ -217,9 +217,7 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
       <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
         <Button
           type="reset"
-
           disabled={!isDirty || !file}
-
           className="w-full"
           onClick={() => {
             setIsclear(true);
