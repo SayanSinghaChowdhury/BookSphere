@@ -31,11 +31,11 @@ import { useRouter } from "next/navigation";
 import { FileSizeValidator } from "use-file-picker/validators";
 import { toast } from "../shadcnui/toast";
 
-type BookCreateForms = {
+type BookSubmitForms = {
   writer: AuthorData[];
 };
 
-const BookCreateForms = ({ writer }: BookCreateForms) => {
+const BookCreateForms = ({ writer }: BookSubmitForms) => {
   const [isClear, setIsclear] = useState(false);
   // for file
   const [file, setFile] = useState(false);
@@ -73,9 +73,6 @@ const BookCreateForms = ({ writer }: BookCreateForms) => {
     });
 
   const bookHandleSubmit = async (bdata: BookType) => {
-    console.log(bdata);
-    console.log(plainFiles[0]);
-
     const { isSuccess, isTitle, msg } = await bookCreateServer(
       bdata,
       plainFiles[0],
