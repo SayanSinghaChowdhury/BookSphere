@@ -2,19 +2,8 @@
 
 import { BookDataGetPayload } from "@generated/prisma/models";
 import { PenSquareIcon } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "../shadcnui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
-import { Button, buttonVariants } from "../shadcnui/button";
+import { Button } from "../shadcnui/button";
 import {
   Card,
   CardContent,
@@ -23,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../shadcnui/card";
+import DeleteCreateForms from "./DeleteCreateForms";
 
 type bData = {
   bookInfo: BookDataGetPayload<{
@@ -32,7 +22,7 @@ type bData = {
   }>;
 };
 
-const FormsDataList = ({ bookInfo }: bData) => {
+const FormsDataList = ({ bookInfo: { id, bookName, image, price } }: bData) => {
   return (
     <Card className="grid w-sm place-items-center gap-3">
       <CardHeader className="w-full text-center">
@@ -41,7 +31,7 @@ const FormsDataList = ({ bookInfo }: bData) => {
             {
               <Avatar className={"size-64"}>
                 <AvatarImage
-                  src={bookInfo.image}
+                  src={`/${image}`}
                   alt="@img"
                 />
                 <AvatarFallback>CI</AvatarFallback>
@@ -49,45 +39,25 @@ const FormsDataList = ({ bookInfo }: bData) => {
             }
           </button>
         </CardTitle>
-        <CardDescription className="font-semibold">
-          {bookInfo.bookName}
-        </CardDescription>
+        <CardDescription className="font-semibold">{bookName}</CardDescription>
       </CardHeader>
       <CardContent>
         <span className="flex place-items-center gap-3">
           Author:
-          <p>{bookInfo.bookName}</p>
+          <p>{bookName}</p>
         </span>
 
         <span className="flex place-items-center gap-3">
           Price:
-          <p>{bookInfo.price}</p>
+          <p>{price}</p>
         </span>
       </CardContent>
 
       <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
-        <AlertDialog>
-          <AlertDialogTrigger render={<Button>Delete</Button>} />
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently Delete your
-                account from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>
-                <a
-                  href="#"
-                  className={buttonVariants()}>
-                  Delete
-                </a>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <DeleteCreateForms
+          deletInfo={id}
+          deleteFileUrl={image}
+        />
 
         <Button
           type="button"

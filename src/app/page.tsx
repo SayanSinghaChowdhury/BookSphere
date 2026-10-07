@@ -1,5 +1,6 @@
 import FormsDataList from "@/components/forms/FormsDataList";
 import prisma from "@/lib/dbClient/prisma";
+import { BookAIcon } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -17,7 +18,12 @@ const page = async () => {
   if (allBookData.length === 0) {
     return (
       <>
-        <section className="grid h-dvh place-items-center"></section>
+        <section className="grid h-dvh place-items-center">
+          <h1 className="flex place-items-center gap-2 font-mono text-2xl font-semibold">
+            Crete your Book Details
+            <BookAIcon className="hover:size-20 hover:duration-300" />
+          </h1>
+        </section>
       </>
     );
   }

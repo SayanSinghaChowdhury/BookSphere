@@ -223,8 +223,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
               reset();
               clear();
             }, 500);
-          }}
-          variant={"destructive"}>
+          }}>
           {isClear ?
             <>
               Reseting...

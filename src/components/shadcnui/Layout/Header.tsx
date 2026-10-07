@@ -9,13 +9,13 @@ const Header = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link href={"/"}>
           <h1
-            className="text-2xl font-semibold"
+            className="font-mono text-2xl font-semibold"
             aria-label="App Name">
             BookSphere
           </h1>
         </Link>
 
-        <nav className="flex items-center gap-4">
+        <nav className="flex items-center gap-4 font-mono">
           <Link href={"/bookcreate"}>BookSub</Link>
 
           <Link href={"/author"}>Author</Link>

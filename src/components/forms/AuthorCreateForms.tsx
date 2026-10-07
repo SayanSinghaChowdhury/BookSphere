@@ -128,8 +128,7 @@ const AuthorCreateForms = () => {
               setClear(false);
               reset();
             }, 500);
-          }}
-          variant={"destructive"}>
+          }}>
           {clear ?
             <>
               Reseting...
