@@ -1,9 +1,10 @@
 "use client";
 
 import { BookDataGetPayload } from "@generated/prisma/models";
-import { PenSquareIcon } from "lucide-react";
+import { PenBoxIcon } from "lucide-react";
+import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
-import { Button } from "../shadcnui/button";
+import { buttonVariants } from "../shadcnui/button";
 import {
   Card,
   CardContent,
@@ -12,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../shadcnui/card";
+import { Separator } from "../shadcnui/separator";
 import DeleteCreateForms from "./DeleteCreateForms";
 
 type bData = {
@@ -41,6 +43,9 @@ const FormsDataList = ({ bookInfo: { id, bookName, image, price } }: bData) => {
         </CardTitle>
         <CardDescription className="font-semibold">{bookName}</CardDescription>
       </CardHeader>
+
+      <Separator />
+
       <CardContent>
         <span className="flex place-items-center gap-3">
           Author:
@@ -59,12 +64,11 @@ const FormsDataList = ({ bookInfo: { id, bookName, image, price } }: bData) => {
           deleteFileUrl={image}
         />
 
-        <Button
-          type="button"
-          className="w-full"
-          variant={"secondary"}>
-          Edit <PenSquareIcon />
-        </Button>
+        <Link
+          href={`/${id}`}
+          className={buttonVariants({ variant: "secondary" })}>
+          Edit <PenBoxIcon />
+        </Link>
       </CardFooter>
     </Card>
   );
