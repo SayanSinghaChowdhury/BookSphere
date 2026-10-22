@@ -1,7 +1,15 @@
 import EditCreateForms from "@/components/forms/EditCreateForms";
 import { Card, CardHeader, CardTitle } from "@/components/shadcnui/card";
+import prisma from "@/lib/dbClient/prisma";
 
 const Page = async () => {
+  // const allEditBookData = await prisma.bookData.findUnique({
+  //   include: {
+  //     authorData: true,
+  //   },
+  // });
+
+  const writerList = await prisma.authorData.findMany();
   // if (author === null) {
   //   return (
   //     <>
@@ -23,7 +31,7 @@ const Page = async () => {
             Edit 📝
           </CardTitle>
         </CardHeader>
-        <EditCreateForms />
+        <EditCreateForms writer={writerList} />
       </Card>
     </section>
   );
