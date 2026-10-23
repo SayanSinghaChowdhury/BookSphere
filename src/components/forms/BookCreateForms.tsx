@@ -214,7 +214,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
       <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
         <Button
           type="reset"
-          disabled={!isDirty || !file}
+          disabled={!isDirty || !file || isSubmitting}
           className="w-full"
           onClick={() => {
             setIsclear(true);

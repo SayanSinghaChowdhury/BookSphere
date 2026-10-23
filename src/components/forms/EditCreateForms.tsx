@@ -1,6 +1,7 @@
 "use client";
 
 import { bookSchema, BookType } from "@/lib/schemaForm";
+import editCreateServer from "@/server/editCreateServer";
 import { AuthorData } from "@generated/prisma/client";
 import { BookDataGetPayload } from "@generated/prisma/models";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,6 +11,7 @@ import {
   Trash2Icon,
   UploadCloudIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useFilePicker } from "use-file-picker";
@@ -27,6 +29,7 @@ import {
   SelectValue,
 } from "../shadcnui/select";
 import { Separator } from "../shadcnui/separator";
+import { toast } from "../shadcnui/toast";
 
 type EditSubmitForms = {
   writer: AuthorData[];
@@ -35,12 +38,16 @@ type EditSubmitForms = {
       authorData: true;
     };
   }>;
+
+  editid: string;
 };
 
-const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
+const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
   const [isClear, setIsClear] = useState(false);
   // for file
   const [file, setFile] = useState(false);
+
+  const { push } = useRouter();
 
   // Forms Information
 
@@ -55,8 +62,7 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
     defaultValues: {
       bookName: bookInfo.bookName,
       price: bookInfo.price.toString(),
-      // writer: bookInfo.authorDataId ?? "",
-      writer: "",
+      writer: bookInfo.authorDataId ?? "",
     },
   });
 
@@ -75,8 +81,36 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
       onClear: () => setFile(false),
     });
 
-  const editHandler = (editInfo: BookType) => {
+  const oldImage = `/${bookInfo.image}`;
+
+  const editHandler = async (editInfo: BookType) => {
     console.log(editInfo);
+
+    const { isSuccess, isTitle, msg } = await editCreateServer(
+      editInfo,
+      plainFiles[0],
+      editid,
+    );
+
+    if (isSuccess) {
+      toast.add({
+        type: "success",
+        title: isTitle,
+        description: `${msg}`,
+        priority: "high",
+      });
+
+      reset();
+
+      push("/");
+    } else {
+      toast.add({
+        type: "error",
+        title: isTitle,
+        priority: "high",
+        description: `${msg}`,
+      });
+    }
   };
   return (
     <form onSubmit={handleSubmit(editHandler)}>
@@ -87,7 +121,7 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
           {!file && (
             <Avatar className={"size-64"}>
               <AvatarImage
-                src="https://placehold.net/book-400x400.png"
+                src={oldImage}
                 alt="@shadcn"
               />
               <AvatarFallback>CI</AvatarFallback>
@@ -197,7 +231,7 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
             setTimeout(() => {
               setIsClear(false);
               reset();
-              // clear();
+              clear();
             }, 500);
           }}>
           {isClear ?
@@ -216,7 +250,7 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
           type="submit"
           className="w-full"
           variant={"secondary"}
-          disabled={!isDirty || !File}>
+          disabled={!isDirty || !file}>
           {isSubmitting ?
             <>
               Submiting <UploadCloudIcon />

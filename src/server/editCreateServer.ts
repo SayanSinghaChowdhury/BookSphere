@@ -6,7 +6,11 @@ import { PrismaClientKnownRequestError } from "@generated/prisma/internal/prisma
 import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 
-export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
+const editCreateServer = async (
+  editInfo: BookType,
+  bookFile: File,
+  editid: string,
+) => {
   try {
     const imageName = `${crypto.randomUUID()}.jpeg`;
     console.log(imageName);
@@ -28,12 +32,13 @@ export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
 
     const imageurl = `uploads/${imageName}`;
 
-    await prisma.bookData.create({
+    await prisma.bookData.update({
       data: {
-        bookName: bdata.bookName,
-        price: parseInt(bdata.price),
+        bookName: editInfo.bookName,
+        price: parseInt(editInfo.price),
         image: imageurl,
       },
+      where: { id: editid },
     });
 
     // revalidatePath("/bookcreate");
@@ -43,7 +48,7 @@ export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
     return {
       isSuccess: true,
       isTitle: "Success",
-      msg: "Book created successfully.",
+      msg: "Book updated successfully.",
     };
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
@@ -71,3 +76,5 @@ export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
     };
   }
 };
+
+export default editCreateServer;

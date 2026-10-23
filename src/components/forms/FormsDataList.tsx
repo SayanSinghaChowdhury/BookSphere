@@ -24,7 +24,9 @@ type bData = {
   }>;
 };
 
-const FormsDataList = ({ bookInfo: { id, bookName, image, price } }: bData) => {
+const FormsDataList = ({
+  bookInfo: { id, bookName, image, price, authorData },
+}: bData) => {
   return (
     <Card className="grid w-sm place-items-center gap-3">
       <CardHeader className="w-full text-center">
@@ -49,7 +51,7 @@ const FormsDataList = ({ bookInfo: { id, bookName, image, price } }: bData) => {
       <CardContent>
         <span className="flex place-items-center gap-3">
           Author:
-          <p>{bookName}</p>
+          <p>{authorData?.userName}</p>
         </span>
 
         <span className="flex place-items-center gap-3">

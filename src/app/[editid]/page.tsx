@@ -39,6 +39,7 @@ const Page = async ({ params }: { params: Promise<{ editid: string }> }) => {
         <EditCreateForms
           writer={writerList}
           bookInfo={BookData}
+          editid={editid}
         />
       </Card>
     </section>
