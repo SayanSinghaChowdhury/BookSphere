@@ -2,6 +2,7 @@
 
 import { bookSchema, BookType } from "@/lib/schemaForm";
 import { AuthorData } from "@generated/prisma/client";
+import { BookDataGetPayload } from "@generated/prisma/models";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   BrushCleaningIcon,
@@ -29,10 +30,14 @@ import { Separator } from "../shadcnui/separator";
 
 type EditSubmitForms = {
   writer: AuthorData[];
-  // editdata: BookData[];
+  bookInfo: BookDataGetPayload<{
+    include: {
+      authorData: true;
+    };
+  }>;
 };
 
-const EditCreateForms = ({ writer }: EditSubmitForms) => {
+const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
   const [isClear, setIsClear] = useState(false);
   // for file
   const [file, setFile] = useState(false);
@@ -48,8 +53,9 @@ const EditCreateForms = ({ writer }: EditSubmitForms) => {
     resolver: zodResolver(bookSchema),
 
     defaultValues: {
-      bookName: "",
-      price: "",
+      bookName: bookInfo.bookName,
+      price: bookInfo.price.toString(),
+      // writer: bookInfo.authorDataId ?? "",
       writer: "",
     },
   });
@@ -169,7 +175,7 @@ const EditCreateForms = ({ writer }: EditSubmitForms) => {
                   {writer.map((item) => (
                     <SelectItem
                       key={item.id}
-                      value={item.userName}>
+                      value={item.id}>
                       {item.userName}
                     </SelectItem>
                   ))}
