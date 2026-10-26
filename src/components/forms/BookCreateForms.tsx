@@ -198,7 +198,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
                   {writer.map((item) => (
                     <SelectItem
                       key={item.id}
-                      value={item.id}>
+                      value={item.userName}>
                       {item.userName}
                     </SelectItem>
                   ))}
@@ -214,7 +214,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
       <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
         <Button
           type="reset"
-          disabled={!isDirty || !file || isSubmitting}
+          disabled={!isDirty || isSubmitting}
           className="w-full"
           onClick={() => {
             setIsclear(true);

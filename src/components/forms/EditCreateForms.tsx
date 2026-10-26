@@ -7,9 +7,9 @@ import { BookDataGetPayload } from "@generated/prisma/models";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   BrushCleaningIcon,
+  NetworkIcon,
   SendIcon,
   Trash2Icon,
-  UploadCloudIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -139,14 +139,14 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
               <AvatarFallback>{name}</AvatarFallback>
             </Avatar>
           ))}
-
-          {errors.map(({ name }) => (
-            <FieldError
-              key={name}
-              errors={[{ message: name }]}
-            />
-          ))}
         </button>
+        {errors.map(({ name }) => (
+          <FieldError
+            className="shadow-border m-3 text-lg font-semibold text-red-400"
+            key={name}
+            errors={[{ message: name }]}
+          />
+        ))}
         <Separator />
         <Controller
           name="bookName"
@@ -209,7 +209,7 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
                   {writer.map((item) => (
                     <SelectItem
                       key={item.id}
-                      value={item.id}>
+                      value={item.userName}>
                       {item.userName}
                     </SelectItem>
                   ))}
@@ -224,7 +224,7 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
       <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
         <Button
           type="reset"
-          disabled={!isDirty || !File}
+          disabled={!isDirty}
           className="w-full"
           onClick={() => {
             setIsClear(true);
@@ -250,13 +250,13 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
           type="submit"
           className="w-full"
           variant={"secondary"}
-          disabled={!isDirty || !file}>
+          disabled={isSubmitting || !file}>
           {isSubmitting ?
             <>
-              Submiting <UploadCloudIcon />
+              Updating <NetworkIcon />
             </>
           : <>
-              Submit <SendIcon />
+              Update <SendIcon />
             </>
           }
         </Button>

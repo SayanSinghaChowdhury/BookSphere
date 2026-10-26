@@ -50,13 +50,11 @@ const FormsDataList = ({
 
       <CardContent>
         <span className="flex place-items-center gap-3">
-          Author:
-          <p>{authorData?.userName}</p>
+          Author :<p>{authorData?.userName}</p>
         </span>
 
         <span className="flex place-items-center gap-3">
-          Price:
-          <p>{price}</p>
+          Price :<p>{price}</p>
         </span>
       </CardContent>
 
