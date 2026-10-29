@@ -1,7 +1,8 @@
 -- CreateTable
 CREATE TABLE "AuthorData" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "userName" TEXT NOT NULL
+    "userName" TEXT NOT NULL,
+    "email" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -10,8 +11,8 @@ CREATE TABLE "BookData" (
     "bookName" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "price" INTEGER NOT NULL,
-    "authorDataId" TEXT,
-    CONSTRAINT "BookData_authorDataId_fkey" FOREIGN KEY ("authorDataId") REFERENCES "AuthorData" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "authorDataId" TEXT NOT NULL,
+    CONSTRAINT "BookData_authorDataId_fkey" FOREIGN KEY ("authorDataId") REFERENCES "AuthorData" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex

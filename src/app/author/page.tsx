@@ -3,8 +3,8 @@ import { Card, CardHeader, CardTitle } from "@/components/shadcnui/card";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "BookSphere Author Create ",
-  description: "BookSphere || Author Login Section",
+  title: "BookSphere Author Create",
+  description: "BookSphere | Author Login Section",
 };
 const page = () => {
   return (

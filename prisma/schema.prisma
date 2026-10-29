@@ -13,23 +13,17 @@ datasource db {
 }
 
 model AuthorData {
-    id String @id @unique() @default(uuid())
-
+    id       String     @id @unique() @default(uuid())
     userName String
-     email String
-
-    book BookData[]
+    email    String
+    book     BookData[]
 }
 
 model BookData {
-    id String @id @unique() @default(uuid())
-
-    bookName String
-
-    image String @unique
-
-    price Int
-
-    authorData   AuthorData? @relation(fields: [authorDataId], references: [id])
-    authorDataId String?
+    id           String     @id @unique() @default(uuid())
+    bookName     String
+    image        String     @unique
+    price        Int
+    authorData   AuthorData @relation(fields: [authorDataId], references: [id])
+    authorDataId String
 }
