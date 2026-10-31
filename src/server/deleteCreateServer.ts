@@ -9,7 +9,7 @@ const deleteCreateServer = async (deletInfo: string, deleteFileUrl: string) => {
   // deletInfo delete second step
 
   try {
-    await rm(`./public/${deleteFileUrl}`);
+    await rm(`public/${deleteFileUrl}`);
 
     await prisma.bookData.delete({
       where: { id: deletInfo },
