@@ -11,7 +11,7 @@ const page = () => {
     <section className="grid h-dvh place-items-center">
       <Card className="grid w-sm place-items-center">
         <CardHeader className="w-full">
-          <CardTitle className="text-center text-xl">Login Author</CardTitle>
+          <CardTitle className="text-center text-xl">Create Author</CardTitle>
         </CardHeader>
         {/* Call Component */}
         <AuthorCreateForms />

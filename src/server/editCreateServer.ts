@@ -48,8 +48,6 @@ const editCreateServer = async (
       where: { id: editid },
     });
 
-    // revalidatePath("/bookcreate");
-
     revalidatePath("/");
 
     return {

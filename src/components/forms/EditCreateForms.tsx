@@ -62,7 +62,7 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
     defaultValues: {
       bookName: bookInfo.bookName,
       price: bookInfo.price.toString(),
-      writer: bookInfo.authorDataId ?? "",
+      writer: bookInfo.authorDataId,
     },
   });
 
