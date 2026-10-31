@@ -33,6 +33,11 @@ export const bookCreateServer = async (bdata: BookType, bookFile: File) => {
         bookName: bdata.bookName,
         price: parseInt(bdata.price),
         image: imageurl,
+        authorData: {
+          connect: {
+            id: bdata.writer,
+          },
+        },
       },
     });
 

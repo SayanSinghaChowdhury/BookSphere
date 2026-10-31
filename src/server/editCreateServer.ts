@@ -34,9 +34,16 @@ const editCreateServer = async (
 
     await prisma.bookData.update({
       data: {
-        bookName: editInfo.bookName,
-        price: parseInt(editInfo.price),
-        image: imageurl,
+        data: {
+          bookName: editInfo.bookName,
+          price: parseInt(editInfo.price),
+          image: imageurl,
+          authorData: {
+            connect: {
+              id: editInfo.writer,
+            },
+          },
+        },
       },
       where: { id: editid },
     });

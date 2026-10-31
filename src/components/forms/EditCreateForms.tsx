@@ -209,7 +209,7 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
                   {writer.map((item) => (
                     <SelectItem
                       key={item.id}
-                      value={item.userName}>
+                      value={item.id}>
                       {item.userName}
                     </SelectItem>
                   ))}
