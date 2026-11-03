@@ -86,8 +86,8 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
         priority: "high",
       });
 
+      clear();
       reset();
-
       push("/");
     } else {
       toast.add({
@@ -108,10 +108,10 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
           {!file && (
             <Avatar className={"size-64"}>
               <AvatarImage
-                src="https://placehold.net/book-400x400.png"
+                src="https://placehold.co/256x400/png"
                 alt="@shadcn"
               />
-              <AvatarFallback>CI</AvatarFallback>
+              <AvatarFallback></AvatarFallback>
             </Avatar>
           )}
 
@@ -126,14 +126,14 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
               <AvatarFallback>{name}</AvatarFallback>
             </Avatar>
           ))}
-
-          {errors.map(({ name }) => (
-            <FieldError
-              key={name}
-              errors={[{ message: name }]}
-            />
-          ))}
         </button>
+        {errors.map(({ name }) => (
+          <FieldError
+            className="mt-3 text-lg text-white"
+            key={name}
+            errors={[{ message: name }]}
+          />
+        ))}
 
         <Separator />
         {/* b-name */}
@@ -216,7 +216,8 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
       <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
         <Button
           type="reset"
-          disabled={!isDirty || isSubmitting}
+          variant={"secondary"}
+          disabled={isSubmitting || !file}
           className="w-full"
           onClick={() => {
             setIsclear(true);
@@ -241,8 +242,8 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
         <Button
           type="submit"
           className="w-full"
-          variant={"secondary"}
-          disabled={!isDirty || !file}>
+          variant={"default"}
+          disabled={!isDirty || isSubmitting || !file}>
           {isSubmitting ?
             <>
               Submiting <UploadCloudIcon />

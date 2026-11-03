@@ -3,6 +3,7 @@
 import prisma from "@/lib/dbClient/prisma";
 import { BookType } from "@/lib/schemaForm";
 import { PrismaClientKnownRequestError } from "@generated/prisma/internal/prismaNamespace";
+import { rm } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 
@@ -10,8 +11,10 @@ const editCreateServer = async (
   editInfo: BookType,
   bookFile: File,
   editid: string,
+  deleteFileUrl: string,
 ) => {
   try {
+    await rm(`public/${deleteFileUrl}`);
     const imageName = `${crypto.randomUUID()}.jpeg`;
     console.log(imageName);
     // store name
@@ -34,14 +37,12 @@ const editCreateServer = async (
 
     await prisma.bookData.update({
       data: {
-        data: {
-          bookName: editInfo.bookName,
-          price: parseInt(editInfo.price),
-          image: imageurl,
-          authorData: {
-            connect: {
-              id: editInfo.writer,
-            },
+        bookName: editInfo.bookName,
+        price: parseInt(editInfo.price),
+        image: imageurl,
+        authorData: {
+          connect: {
+            id: editInfo.writer,
           },
         },
       },

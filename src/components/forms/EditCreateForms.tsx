@@ -5,12 +5,7 @@ import editCreateServer from "@/server/editCreateServer";
 import { AuthorData } from "@generated/prisma/client";
 import { BookDataGetPayload } from "@generated/prisma/models";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  BrushCleaningIcon,
-  NetworkIcon,
-  SendIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { NetworkIcon, SendIcon, ServerIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -40,10 +35,15 @@ type EditSubmitForms = {
   }>;
 
   editid: string;
+  deleteFileUrl: string;
 };
 
-const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
-  const [isClear, setIsClear] = useState(false);
+const EditCreateForms = ({
+  writer,
+  bookInfo,
+  editid,
+  deleteFileUrl,
+}: EditSubmitForms) => {
   // for file
   const [file, setFile] = useState(false);
 
@@ -90,6 +90,7 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
       editInfo,
       plainFiles[0],
       editid,
+      deleteFileUrl,
     );
 
     if (isSuccess) {
@@ -100,8 +101,8 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
         priority: "high",
       });
 
+      clear();
       reset();
-
       push("/");
     } else {
       toast.add({
@@ -142,11 +143,25 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
         </button>
         {errors.map(({ name }) => (
           <FieldError
-            className="shadow-border m-3 text-lg font-semibold text-red-400"
+            className="mt-3 text-lg text-white"
             key={name}
             errors={[{ message: name }]}
           />
         ))}
+        <Button
+          type="submit"
+          className="w-full"
+          variant={"default"}
+          disabled={!file}>
+          {isSubmitting ?
+            <>
+              Updating <NetworkIcon />
+            </>
+          : <>
+              Update Info <SendIcon />
+            </>
+          }
+        </Button>
         <Separator />
         <Controller
           name="bookName"
@@ -222,42 +237,18 @@ const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
           )}
         />
       </CardContent>
-      <CardFooter className="grid w-full grid-cols-2 gap-7 pt-7">
-        <Button
-          type="reset"
-          disabled={!isDirty}
-          className="w-full"
-          onClick={() => {
-            setIsClear(true);
-            setTimeout(() => {
-              setIsClear(false);
-              reset();
-              clear();
-            }, 500);
-          }}>
-          {isClear ?
-            <>
-              Reseting...
-              <BrushCleaningIcon />
-            </>
-          : <>
-              Reset
-              <Trash2Icon />
-            </>
-          }
-        </Button>
-
+      <CardFooter className="grid w-full place-items-center">
         <Button
           type="submit"
-          className="w-full"
-          variant={"secondary"}
-          disabled={isSubmitting || !file}>
+          className="mt-6 w-full"
+          variant={"default"}
+          disabled={!isDirty || isSubmitting}>
           {isSubmitting ?
             <>
-              Updating <NetworkIcon />
+              Updating... <ServerIcon />
             </>
           : <>
-              Update <SendIcon />
+              Update Me <SendIcon />
             </>
           }
         </Button>

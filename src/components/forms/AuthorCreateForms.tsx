@@ -117,6 +117,7 @@ const AuthorCreateForms = () => {
 
       <CardFooter className="grid grid-cols-2 place-items-center gap-3">
         <Button
+          variant={"secondary"}
           type="reset"
 
           disabled={!isDirty}
@@ -144,7 +145,7 @@ const AuthorCreateForms = () => {
         <Button
           type="submit"
           className="w-full"
-          variant={"secondary"}
+          variant={"default"}
           disabled={!isDirty}>
           {isSubmitting ?
             <>
