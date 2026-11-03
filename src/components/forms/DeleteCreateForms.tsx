@@ -83,12 +83,6 @@ const DeleteCreateForms = ({
             className={"w-auto"}
 
             onClick={deleteHandle}>
-            {/* <Link
-              href="#"
-              className={buttonVariants()}>
-              Delete <Trash2Icon />
-            </Link> */}
-
             {clear ?
               <>
                 waiting <Spinner />

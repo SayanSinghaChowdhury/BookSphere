@@ -191,15 +191,17 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
                 value={field.value}
                 onValueChange={field.onChange}>
                 <SelectTrigger className="w-full font-semibold">
-                  <SelectValue placeholder="Select Writer" />
+                  <SelectValue placeholder="Select Author">
+                    {writer.find(({ id }) => id === field.value)?.userName}
+                  </SelectValue>
                 </SelectTrigger>
 
                 <SelectContent>
-                  {writer.map((item) => (
+                  {writer.map(({ id, userName }) => (
                     <SelectItem
-                      key={item.id}
-                      value={item.id}>
-                      {item.userName}
+                      key={id}
+                      value={id}>
+                      {userName}
                     </SelectItem>
                   ))}
                 </SelectContent>
