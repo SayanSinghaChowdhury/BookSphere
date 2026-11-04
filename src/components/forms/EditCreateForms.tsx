@@ -1,6 +1,7 @@
 "use client";
 
 import { bookSchema, BookType } from "@/lib/schemaForm";
+import editCreateServer from "@/server/editCreateServer";
 import editImage from "@/server/editImage";
 import { AuthorData } from "@generated/prisma/client";
 import { BookDataGetPayload } from "@generated/prisma/models";
@@ -35,10 +36,9 @@ type EditSubmitForms = {
   }>;
 
   editid: string;
-  deleteFileUrl: string;
 };
 
-const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
+const EditCreateForms = ({ writer, bookInfo, editid }: EditSubmitForms) => {
   // for file
   const [file, setFile] = useState(false);
 
@@ -92,6 +92,7 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
         description: `${msg}`,
         priority: "high",
       });
+      clear();
       push("/");
     } else {
       toast.add({
@@ -103,35 +104,29 @@ const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
     }
   };
 
-  const editHandler = async (editInfo: BookType) => {
-    console.log(editInfo);
+  const editHandler = async (bookInfo: BookType) => {
+    console.log(bookInfo);
 
-    // const { isSuccess, isTitle, msg } = await editCreateServer(
-    //   editInfo,
-    //   plainFiles[0],
-    //   editid,
-    //   deleteFileUrl,
-    // );
+    const { isSuccess, title, msg } = await editCreateServer(bookInfo, editid);
 
-    // if (isSuccess) {
-    //   toast.add({
-    //     type: "success",
-    //     title: isTitle,
-    //     description: `${msg}`,
-    //     priority: "high",
-    //   });
+    if (isSuccess) {
+      toast.add({
+        type: "success",
+        title: title,
+        description: `${msg}`,
+        priority: "high",
+      });
 
-    //   clear();
-    //   reset();
-    //   push("/");
-    // } else {
-    //   toast.add({
-    //     type: "error",
-    //     title: isTitle,
-    //     priority: "high",
-    //     description: `${msg}`,
-    //   });
-    // }
+      reset();
+      push("/");
+    } else {
+      toast.add({
+        type: "error",
+        title: title,
+        priority: "high",
+        description: `${msg}`,
+      });
+    }
   };
   return (
     <form onSubmit={handleSubmit(editHandler)}>
