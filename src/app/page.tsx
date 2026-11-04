@@ -1,27 +1,43 @@
-import Header from "@/components/Layout/Header";
-import ToastButton from "@/components/ToastButton";
+import FormsDataList from "@/components/forms/FormsDataList";
+import prisma from "@/lib/dbClient/prisma";
+import { BookAIcon } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Next.js Starter Fullstack",
-  description: "Production grade Fullstack Next.js starter template",
+  title: "BookSphere",
+  description: "BookSphere || Read Section",
 };
 
-const page = () => {
+const page = async () => {
+  const allBookData = await prisma.bookData.findMany({
+    include: {
+      authorData: true,
+    },
+  });
+
+  if (allBookData.length === 0) {
+    return (
+      <>
+        <section className="grid h-dvh place-items-center">
+          <h1 className="flex place-items-center gap-2 font-mono text-2xl font-semibold">
+            Crete your Book Details
+            <BookAIcon className="hover:size-20 hover:duration-300" />
+          </h1>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
-      <Header />
-
-      <main className="grid h-dvh place-items-center">
-        <section className="space-y-4 text-center">
-          <h1 className="text-5xl font-semibold">Next.js Starter Fullstack</h1>
-          <h2 className="text-3xl">
-            Production grade Fullstack Next.js starter template
-          </h2>
-
-          <ToastButton />
-        </section>
-      </main>
+      <section className="mx-4 grid place-items-center gap-10 pt-20 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {allBookData.map((data) => (
+          <FormsDataList
+            key={data.id}
+            bookInfo={data}
+          />
+        ))}
+      </section>
     </>
   );
 };

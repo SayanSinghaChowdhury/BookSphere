@@ -1,4 +1,5 @@
 import ThemeProvider from "@/components/Providers/ThemeProvider";
+import Header from "@/components/shadcnui/Layout/Header";
 import { geistMono, geistSans, interHeading } from "@/lib/fonts";
 import { LayoutProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -20,7 +21,8 @@ const RootLayout = ({ children }: LayoutProps) => {
           attribute={"class"}
           defaultTheme="dark"
           enableSystem={false}>
-          {children}
+          <Header />
+          <main> {children}</main>
         </ThemeProvider>
       </body>
     </html>
