@@ -64,7 +64,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
       readAs: "DataURL",
 
       validators: [
-        new FileSizeValidator({ maxFileSize: 1 * 1024 * 1024 /* 1 MB */ }),
+        new FileSizeValidator({ maxFileSize: 5 * 1024 * 1024 /* 1 MB */ }),
       ],
 
       onFilesSuccessfullySelected: () => setFile(true),

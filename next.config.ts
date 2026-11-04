@@ -8,4 +8,12 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
 };
 
+module.exports = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
+};
+
 export default nextConfig;
