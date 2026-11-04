@@ -36,7 +36,7 @@ const DeleteCreateForms = ({
       setTimeout(r, 1500);
     });
 
-    const { isSuccess, isTitle, msg } = await deleteCreateServer(
+    const { isSuccess, title, msg } = await deleteCreateServer(
       deletInfo,
       deleteFileUrl,
     );
@@ -44,14 +44,14 @@ const DeleteCreateForms = ({
     if (isSuccess) {
       toast.add({
         type: "success",
-        title: isTitle,
+        title: title,
         description: `${msg}`,
         priority: "high",
       });
     } else {
       toast.add({
         type: "error",
-        title: isTitle,
+        title: title,
         priority: "high",
         description: `${msg}`,
       });

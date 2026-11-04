@@ -18,31 +18,31 @@ const deleteCreateServer = async (deletInfo: string, deleteFileUrl: string) => {
 
     return {
       isSuccess: true,
-      isTitle: "Success",
-      msg: "Book created successfully.",
+      title: "Success",
+      msg: "Book deleted successfully.",
     };
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       return {
         isSuccess: false,
-        isTitle: error.name,
+        title: error.name,
 
-        msg: error.cause,
+        msg: error.message,
       };
     }
 
     if (error instanceof Error) {
       return {
         isSuccess: false,
-        isTitle: error.name,
+        title: error.name,
 
-        msg: error.cause,
+        msg: error.message,
       };
     }
 
     return {
       isSuccess: false,
-      isTitle: "Sorry😭",
+      title: "Sorry😭",
       msg: "Something happend Wrong...",
     };
   }

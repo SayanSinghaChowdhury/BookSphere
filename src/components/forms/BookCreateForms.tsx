@@ -73,7 +73,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
     });
 
   const bookHandleSubmit = async (bdata: BookType) => {
-    const { isSuccess, isTitle, msg } = await bookCreateServer(
+    const { isSuccess, title, msg } = await bookCreateServer(
       bdata,
       plainFiles[0],
     );
@@ -81,7 +81,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
     if (isSuccess) {
       toast.add({
         type: "success",
-        title: isTitle,
+        title: title,
         description: `${msg}`,
         priority: "high",
       });
@@ -92,7 +92,7 @@ const BookCreateForms = ({ writer }: BookSubmitForms) => {
     } else {
       toast.add({
         type: "error",
-        title: isTitle,
+        title: title,
         priority: "high",
         description: `${msg}`,
       });

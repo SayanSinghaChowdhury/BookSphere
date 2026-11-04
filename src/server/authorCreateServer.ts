@@ -24,24 +24,24 @@ export const authorCreateServer = async (auhData: authorSchemaType) => {
     if (error instanceof PrismaClientKnownRequestError) {
       return {
         isSuccess: false,
-        isTitle: error.name,
+        title: error.name,
 
-        msg: error.cause,
+        msg: error.message,
       };
     }
 
     if (error instanceof Error) {
       return {
         isSuccess: false,
-        isTitle: error.name,
+        title: error.name,
 
-        msg: error.cause,
+        msg: error.message,
       };
     }
 
     return {
       isSuccess: false,
-      isTitle: "Sorry😭",
+      title: "Sorry😭",
       msg: "Something happend Wrong...",
     };
   }

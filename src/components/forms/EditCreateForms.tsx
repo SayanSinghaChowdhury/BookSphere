@@ -1,7 +1,7 @@
 "use client";
 
 import { bookSchema, BookType } from "@/lib/schemaForm";
-import editCreateServer from "@/server/editCreateServer";
+import editImage from "@/server/editImage";
 import { AuthorData } from "@generated/prisma/client";
 import { BookDataGetPayload } from "@generated/prisma/models";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,12 +38,7 @@ type EditSubmitForms = {
   deleteFileUrl: string;
 };
 
-const EditCreateForms = ({
-  writer,
-  bookInfo,
-  editid,
-  deleteFileUrl,
-}: EditSubmitForms) => {
+const EditCreateForms = ({ writer, bookInfo }: EditSubmitForms) => {
   // for file
   const [file, setFile] = useState(false);
 
@@ -83,35 +78,60 @@ const EditCreateForms = ({
 
   const oldImage = `/${bookInfo.image}`;
 
-  const editHandler = async (editInfo: BookType) => {
-    console.log(editInfo);
-
-    const { isSuccess, isTitle, msg } = await editCreateServer(
-      editInfo,
+  const editImageHandler = async () => {
+    const { isSuccess, title, msg } = await editImage(
+      bookInfo.id,
+      bookInfo.image,
       plainFiles[0],
-      editid,
-      deleteFileUrl,
     );
 
     if (isSuccess) {
       toast.add({
         type: "success",
-        title: isTitle,
+        title: title,
         description: `${msg}`,
         priority: "high",
       });
-
-      clear();
-      reset();
       push("/");
     } else {
       toast.add({
         type: "error",
-        title: isTitle,
+        title: title,
         priority: "high",
         description: `${msg}`,
       });
     }
+  };
+
+  const editHandler = async (editInfo: BookType) => {
+    console.log(editInfo);
+
+    // const { isSuccess, isTitle, msg } = await editCreateServer(
+    //   editInfo,
+    //   plainFiles[0],
+    //   editid,
+    //   deleteFileUrl,
+    // );
+
+    // if (isSuccess) {
+    //   toast.add({
+    //     type: "success",
+    //     title: isTitle,
+    //     description: `${msg}`,
+    //     priority: "high",
+    //   });
+
+    //   clear();
+    //   reset();
+    //   push("/");
+    // } else {
+    //   toast.add({
+    //     type: "error",
+    //     title: isTitle,
+    //     priority: "high",
+    //     description: `${msg}`,
+    //   });
+    // }
   };
   return (
     <form onSubmit={handleSubmit(editHandler)}>
@@ -149,7 +169,8 @@ const EditCreateForms = ({
           />
         ))}
         <Button
-          type="submit"
+          type="button"
+          onClick={editImageHandler}
           className="w-full"
           variant={"default"}
           disabled={!file}>
@@ -158,7 +179,7 @@ const EditCreateForms = ({
               Updating <NetworkIcon />
             </>
           : <>
-              Update Info <SendIcon />
+              Update Me <SendIcon />
             </>
           }
         </Button>
